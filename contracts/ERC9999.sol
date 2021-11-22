@@ -11,10 +11,10 @@ import "./interface/IERC9999.sol";
 /// @notice cryptosharing
 contract ERC9999 is IERC9999 , ERC721 {
     
-    // Mapping from token ID to user address
+    /// @dev Mapping from token ID to user address
     mapping(uint256 => address) private _users;
 
-    // Mapping user address to token count
+    /// @dev Mapping user address to token count
     mapping(address => uint256) private _balancesOfUser;
     
     constructor(string memory name_, string memory symbol_) ERC721(name_ , symbol_){
