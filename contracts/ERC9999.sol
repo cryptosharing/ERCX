@@ -26,7 +26,6 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     function approveUser(address to, uint256 tokenId) public virtual  {
-        address owner = ERC721.ownerOf(tokenId);
         address user = ERC9999.userOf(tokenId);
         require(to != user, "ERC9999: approval to current user");
 
