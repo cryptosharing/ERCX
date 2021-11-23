@@ -31,7 +31,7 @@ contract ERC9999 is IERC9999 , ERC721 {
         require(to != user, "ERC9999: approval to current user");
 
         require(
-            _msgSender() == owner || _isApprovedOrUser(_msgSender(), tokenId),
+            _isApprovedOrOwner(_msgSender(), tokenId) || _isApprovedOrUser(_msgSender(), tokenId),
             "ERC9999: approve caller is not owner nor approved for all"
         );
 
