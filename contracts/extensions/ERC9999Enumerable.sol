@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "../ERC9999.sol";
 import "./IERC9999Enumerable.sol";
 
- contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
+abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
     // Mapping from user to list of useable token IDs
     mapping(address => mapping(uint256 => uint256)) private _userTokens;
 
@@ -24,9 +24,6 @@ import "./IERC9999Enumerable.sol";
     // Mapping from token id to position in the allTokens array
     mapping(uint256 => uint256) private _allTokensIndex;
     
-    constructor(string memory name_, string memory symbol_) ERC9999(name_ , symbol_){
-        
-    }
     
     function mint(address to, uint256 tokenId) public {
         _mint(to,tokenId);
