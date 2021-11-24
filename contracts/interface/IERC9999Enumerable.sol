@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../interface/IERC9999.sol";
+import "./IERC9999.sol";
 
 
 interface IERC9999Enumerable is IERC9999 {
