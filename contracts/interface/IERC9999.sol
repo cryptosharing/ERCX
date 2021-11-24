@@ -9,8 +9,6 @@ interface IERC9999 is IERC721{
     event TransferUser(address from,address to,uint256 tokenId);
     
     event ApprovalUser(address indexed user, address indexed approved, uint256 indexed tokenId);
-
-    event ApprovalUserForAll(address indexed user, address indexed operator, bool approved);
     
     function balanceOfUser(address user) external view returns (uint256 balance);
     
@@ -39,8 +37,5 @@ interface IERC9999 is IERC721{
     
     function getApprovedUser(uint256 tokenId) external view returns (address operator);
     
-    function isApprovedUserForAll(address user, address operator) external view returns (bool);
-    
-    function setApprovalUserForAll(address operator, bool _approved) external;
     
 }
