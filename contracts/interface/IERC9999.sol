@@ -2,8 +2,9 @@
 
 
 pragma solidity ^0.8.0;
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol";
 
-interface IERC9999{
+interface IERC9999 is IERC721{
     
     event TransferUser(address from,address to,uint256 tokenId);
     
