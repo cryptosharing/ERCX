@@ -123,7 +123,7 @@ contract ERC9999 is IERC9999 , ERC721 {
         emit TransferUser(from, to, tokenId);
     }
     
-    function _mint(address to , uint256 tokenId) internal virtual override{
+    function _safeMint(address to , uint256 tokenId) internal virtual override{
         require(to != address(0), "ERC9999: mint to the zero address");
 
         _beforeTokenTransferUser(address(0), to, tokenId);
