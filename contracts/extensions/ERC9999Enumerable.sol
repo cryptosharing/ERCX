@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "../ERC9999.sol";
-import "./IERC9999Enumerable.sol";
+import "../interface/IERC9999Enumerable.sol";
 
 abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
     // Mapping from user to list of useable token IDs
@@ -24,11 +24,6 @@ abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
     // Mapping from token id to position in the allTokens array
     mapping(uint256 => uint256) private _allTokensIndex;
     
-    
-    function mint(address to, uint256 tokenId) public {
-        _mint(to,tokenId);
-    }
-    
     /**
      * @dev See {IERC9999Enumerable-tokenOfOwnerByIndex}.
      */
@@ -36,6 +31,7 @@ abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
         require(index < super.balanceOf(owner), "ERC9999Enumerable: owner index out of bounds");
         return _ownedTokens[owner][index];
     }
+    
     /**
      * @dev See {IERC9999Enumerable-tokenOfOwnerByIndex}.
      */
