@@ -115,8 +115,10 @@ contract ERC9999 is IERC9999 , ERC721 {
 
         // Clear approvals from the previous owner
         _approveUser(address(0), tokenId);
-
-        _balancesOfUser[from] -= 1;
+        
+        
+        address user = userOf(tokenId);
+        _balancesOfUser[user] -= 1;
         _balancesOfUser[to] += 1;
         _users[tokenId] = to;
 
