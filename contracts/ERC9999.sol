@@ -110,14 +110,14 @@ contract ERC9999 is IERC9999 , ERC721 {
     ) internal virtual {
         require(ERC9999.userOf(tokenId) == from || ERC721.ownerOf(tokenId) == from, "ERC9999: transfer of token that is not use");
         require(to != address(0), "ERC9999: transfer to the zero address");
-
-        _beforeTokenTransferUser(from, to, tokenId);
+        address user = userOf(tokenId);
+        _beforeTokenTransferUser(user), to, tokenId);
 
         // Clear approvals from the previous owner
         _approveUser(address(0), tokenId);
         
         
-        address user = userOf(tokenId);
+        
         _balancesOfUser[user] -= 1;
         _balancesOfUser[to] += 1;
         _users[tokenId] = to;
