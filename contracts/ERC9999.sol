@@ -111,7 +111,7 @@ contract ERC9999 is IERC9999 , ERC721 {
         require(ERC9999.userOf(tokenId) == from || ERC721.ownerOf(tokenId) == from, "ERC9999: transfer of token that is not use");
         require(to != address(0), "ERC9999: transfer to the zero address");
         address user = userOf(tokenId);
-        _beforeTokenTransferUser(user), to, tokenId);
+        _beforeTokenTransferUser(user, to, tokenId);
 
         // Clear approvals from the previous owner
         _approveUser(address(0), tokenId);
