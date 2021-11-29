@@ -78,6 +78,25 @@ contract ERC9999 is IERC9999 , ERC721 {
         safeTransferUserFrom(from, to, tokenId, "");
     }
     
+    function safeTransferAllFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public virtual override {
+        safeTransferAllFrom(from, to, tokenId, "");
+    }
+    
+    function safeTransferAllFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        bytes memory _data
+    ) public virtual override {
+        require(_isApprovedOrOwner(_msgSender(),tokenId),"ERC9999: transfer caller is not owner nor approved");
+        safeTransferUserFrom(from, to, tokenId, "");
+        safeTransferOwnerFrom(from, to, tokenId, "");
+    }
+    
     function safeTransferUserFrom(
         address from,
         address to,
@@ -115,8 +134,6 @@ contract ERC9999 is IERC9999 , ERC721 {
 
         // Clear approvals from the previous owner
         _approveUser(address(0), tokenId);
-        
-        
         
         _balancesOfUser[user] -= 1;
         _balancesOfUser[to] += 1;
