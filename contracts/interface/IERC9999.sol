@@ -33,6 +33,19 @@ interface IERC9999 is IERC721{
         bytes calldata data
     ) external;
     
+    function safeTransferAllFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) external;
+    
+    function safeTransferAllFrom(
+        address from,
+        address to,
+        uint256 tokenId,
+        bytes calldata data
+    ) external;
+    
     function approveUser(address to, uint256 tokenId) external;
     
     function getApprovedUser(uint256 tokenId) external view returns (address operator);
