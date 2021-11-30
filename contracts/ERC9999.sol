@@ -43,6 +43,11 @@ contract ERC9999 is IERC9999 , ERC721 {
         _approveUser(to, tokenId);
     }
     
+    /**
+     * @dev Approve `to` to operate on `tokenId` token use right.
+     *
+     * Emits a {ApprovalUser} event.
+     */
     function _approveUser(address to, uint256 tokenId) internal virtual {
         _tokenUserApprovals[tokenId] = to;
         emit ApprovalUser(ERC721.ownerOf(tokenId), to, tokenId);
@@ -123,8 +128,12 @@ contract ERC9999 is IERC9999 , ERC721 {
         safeTransferFrom(from, to, tokenId, "");
     }
     
-    /*
-     *@dev 
+    /**
+     * @dev Returns whether `spender` is allowed to manage `tokenId` token use right.
+     *
+     * Requirements:
+     *
+     * - `tokenId` must exist.
      */
     function _isApprovedOrUser(address spender, uint256 tokenId) internal view virtual returns (bool) {
         require(ERC721._exists(tokenId), "ERC9999: operator query for nonexistent token");
@@ -132,8 +141,19 @@ contract ERC9999 is IERC9999 , ERC721 {
         return (spender == user || getApprovedUser(tokenId) == user);
     }
     
-    /*
-     *@dev 
+    /**
+     * @dev Safely transfers `tokenId` token use right from `from` to `to`
+     *
+     * `_data` is additional data, it has no specified format and it is sent in call to `to`.
+     *
+     *
+     * Requirements:
+     *
+     * - `from` cannot be the zero address.
+     * - `to` cannot be the zero address.
+     * - `tokenId` token must exist and be used/owned or approved/user-approved by `from`.
+     *
+     * Emits a {TransferUser} event.
      */
     function _safeTransferUser(
         address from,
@@ -144,8 +164,16 @@ contract ERC9999 is IERC9999 , ERC721 {
         _transferUser(from, to, tokenId);
     }
     
-    /*
-     *@dev 
+    /**
+     * @dev Transfers `tokenId` from `from` to `to`.
+     *  As opposed to {transferFrom}, this imposes no restrictions on msg.sender.
+     *
+     * Requirements:
+     *
+     * - `to` cannot be the zero address.
+     * - `tokenId` token must exist and be used/owned or approved/user-approved by `from`.
+     *
+     * Emits a {TransferUser} event.
      */
     function _transferUser(
         address from,
@@ -167,8 +195,16 @@ contract ERC9999 is IERC9999 , ERC721 {
         emit TransferUser(from, to, tokenId);
     }
     
-    /*
-     *@dev 
+    /**
+     * @dev Mints `tokenId` and transfers it to `to`.
+     *
+     *
+     * Requirements:
+     *
+     * - `tokenId` must not exist.
+     * - `to` cannot be the zero address.
+     *
+     * Emits a {Transfer} and a {TransferUser} event.
      */
     function _safeMint(address to , uint256 tokenId) internal virtual override{
         require(to != address(0), "ERC9999: mint to the zero address");
@@ -178,10 +214,43 @@ contract ERC9999 is IERC9999 , ERC721 {
         _balancesOfUser[to] += 1;
         _users[tokenId] = to;
         super._safeMint(to,tokenId);
+        emit TransferUser(address(0), to, tokenId);
     }
     
-    /*
-     *@dev 
+    /**
+     * @dev Destroys `tokenId` token and its use right.
+     * The approval is cleared when the token is burned.
+     *
+     * Requirements:
+     *
+     * - `tokenId` must exist.
+     *
+     * Emits a {TransferUser} and a {Transfer} event.
+     */
+    function _burn(uint256 tokenId) internal virtual override{
+        super._burn();
+
+        address user = userOf(tokenId);
+
+        _beforeTokenTransferUser(user, address(0), tokenId);
+        // Clear approvals
+        _approveUser(address(0), tokenId);
+
+        _balancesOfUser[user] -= 1;
+        delete _users[tokenId];
+
+        emit TransferUser(user, address(0), tokenId);
+    }
+
+    /**
+     * @dev Hook that is called before any tokenUser transfer. This includes minting
+     * and burning.
+     *
+     * Calling conditions:
+     *
+     * - When `from` and `to` are both non-zero, ``from``'s `tokenId` token use right will be
+     * transferred to `to`.
+     *
      */
     function _beforeTokenTransferUser(
         address from,
