@@ -8,4 +8,4 @@ This standard adds a new right of Non-Fungible Token that the right to use. Thro
 
 It is precisely because of the separation of ownership and use right that the utilization rate of assets can be greater. You must distinguish between the rights of the user and the owner.
 
-The EIP consists of two interfaces, found as {IERCX},{IERCXEnumerable}. The first one and the {https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol} are required in the contract to be ERCX compliant. The enumerable extension is provided separately in {ERCXEnumerable}.
+The EIP consists of two interfaces, found as {IERCX},{IERCXEnumerable}. The first one and the {https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol } are required in the contract to be ERCX compliant. The enumerable extension is provided separately in {ERCXEnumerable}.
