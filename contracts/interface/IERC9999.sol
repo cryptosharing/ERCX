@@ -6,9 +6,9 @@ pragma solidity ^0.8.0;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/IERC721.sol";
 
 /**
- * @dev Required interface of an ERC9999 compliant contract.
+ * @dev Required interface of an ERCX compliant contract.
  */
-interface IERC9999 is IERC721{
+interface IERCX is IERC721{
 
     /**
      * @dev Emitted when `tokenId` tokenUser is transferred from `from` to `to`.

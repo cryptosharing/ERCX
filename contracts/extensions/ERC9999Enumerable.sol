@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-import "../ERC9999.sol";
-import "../interface/IERC9999Enumerable.sol";
+import "../ERCX.sol";
+import "../interface/IERCXEnumerable.sol";
 
-abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
+abstract contract ERCXEnumerable is ERCX ,IERCXEnumerable{
     // Mapping from user to list of useable token IDs
     mapping(address => mapping(uint256 => uint256)) private _userTokens;
 
@@ -25,33 +25,33 @@ abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
     mapping(uint256 => uint256) private _allTokensIndex;
     
     /**
-     * @dev See {IERC9999Enumerable-tokenOfOwnerByIndex}.
+     * @dev See {IERCXEnumerable-tokenOfOwnerByIndex}.
      */
     function tokenOfOwnerByIndex(address owner, uint256 index) public view virtual override returns (uint256) {
-        require(index < super.balanceOf(owner), "ERC9999Enumerable: owner index out of bounds");
+        require(index < super.balanceOf(owner), "ERCXEnumerable: owner index out of bounds");
         return _ownedTokens[owner][index];
     }
     
     /**
-     * @dev See {IERC9999Enumerable-tokenOfOwnerByIndex}.
+     * @dev See {IERCXEnumerable-tokenOfOwnerByIndex}.
      */
     function tokenOfUserByIndex(address user, uint256 index) public view virtual override returns (uint256) {
-        require(index < super.balanceOfUser(user), "ERC9999Enumerable: user index out of bounds");
+        require(index < super.balanceOfUser(user), "ERCXEnumerable: user index out of bounds");
         return _userTokens[user][index];
     }
 
     /**
-     * @dev See {IERC9999Enumerable-totalSupply}.
+     * @dev See {IERCXEnumerable-totalSupply}.
      */
     function totalSupply() public view virtual override returns (uint256) {
         return _allTokens.length;
     }
     
     /**
-     * @dev See {IERC9999Enumerable-tokenByIndex}.
+     * @dev See {IERCXEnumerable-tokenByIndex}.
      */
     function tokenByIndex(uint256 index) public view virtual override returns (uint256) {
-        require(index < ERC9999Enumerable.totalSupply(), "ERC9999Enumerable: global index out of bounds");
+        require(index < ERCXEnumerable.totalSupply(), "ERCXEnumerable: global index out of bounds");
         return _allTokens[index];
     }
     

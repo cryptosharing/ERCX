@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.0;
 
-import "./IERC9999.sol";
+import "./IERCX.sol";
 
 
-interface IERC9999Enumerable is IERC9999 {
+interface IERCXEnumerable is IERCX {
 
     /**
      * @dev Returns a tokenId used by `user` at a given `index` of its token list.

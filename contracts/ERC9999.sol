@@ -4,13 +4,13 @@
 pragma solidity ^0.8.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
-import "./interface/IERC9999.sol";
+import "./interface/IERCX.sol";
 
 /// @title cryptosharing
 /// @author Kimos
 /// @notice cryptosharing
 
-contract ERC9999 is IERC9999 , ERC721 {
+contract ERCX is IERCX , ERC721 {
     
     // Mapping from tokenId to user address
     mapping(uint256 => address) private _users;
@@ -29,15 +29,15 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /*
-     *@dev see{IERC9999-approveUser}
+     *@dev see{IERCX-approveUser}
      */
     function approveUser(address to, uint256 tokenId) public virtual override{
-        address user = ERC9999.userOf(tokenId);
-        require(to != user, "ERC9999: approval to current user");
+        address user = ERCX.userOf(tokenId);
+        require(to != user, "ERCX: approval to current user");
 
         require(
             _isApprovedOrOwner(_msgSender(), tokenId) || _isApprovedOrUser(_msgSender(), tokenId),
-            "ERC9999: approve caller is not owner nor approved for all"
+            "ERCX: approve caller is not owner nor approved for all"
         );
 
         _approveUser(to, tokenId);
@@ -54,33 +54,33 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /*
-     *@dev see{IERC9999-getApprovedUser}
+     *@dev see{IERCX-getApprovedUser}
      */
     function getApprovedUser(uint256 tokenId) public view virtual override returns (address) {
-        require(_exists(tokenId), "ERC9999: approved query for nonexistent token");
+        require(_exists(tokenId), "ERCX: approved query for nonexistent token");
 
         return _tokenUserApprovals[tokenId];
     }
     
     /*
-     *@dev see{IERC9999-balanceOfUser}
+     *@dev see{IERCX-balanceOfUser}
      */
     function balanceOfUser(address user) public view virtual override returns (uint256) {
-        require(user != address(0), "ERC9999: balance query for the zero address");
+        require(user != address(0), "ERCX: balance query for the zero address");
         return _balancesOfUser[user];
     }
     
     /*
-     *@dev see{IERC9999-userOf}
+     *@dev see{IERCX-userOf}
      */
     function userOf(uint256 tokenId) public view virtual override returns (address) {
         address user = _users[tokenId];
-        require(user != address(0), "ERC9999: user query for nonexistent token");
+        require(user != address(0), "ERCX: user query for nonexistent token");
         return user;
     }
     
     /*
-     *@dev see{IERC9999-safeTranserUserFrom}
+     *@dev see{IERCX-safeTranserUserFrom}
      */
     function safeTransferUserFrom(
         address from,
@@ -91,7 +91,7 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /*
-     *@dev see{IERC9999-safeTransferUserFrom}
+     *@dev see{IERCX-safeTransferUserFrom}
      */
     function safeTransferUserFrom(
         address from,
@@ -99,12 +99,12 @@ contract ERC9999 is IERC9999 , ERC721 {
         uint256 tokenId,
         bytes memory _data
     ) public virtual override {
-        require(_isApprovedOrUser(_msgSender(), tokenId) || _isApprovedOrOwner(_msgSender(),tokenId), "ERC9999: transfer caller is not user or owner nor approved");
+        require(_isApprovedOrUser(_msgSender(), tokenId) || _isApprovedOrOwner(_msgSender(),tokenId), "ERCX: transfer caller is not user or owner nor approved");
         _safeTransferUser(from, to, tokenId, _data);
     }
 
     /*
-     *@dev see{IERC9999-safeTransfferAllFrom}
+     *@dev see{IERCX-safeTransfferAllFrom}
      */
     function safeTransferAllFrom(
         address from,
@@ -115,7 +115,7 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /*
-     *@dev see{IERC9999-safeTransferAllFrom}
+     *@dev see{IERCX-safeTransferAllFrom}
      */
     function safeTransferAllFrom(
         address from,
@@ -123,7 +123,7 @@ contract ERC9999 is IERC9999 , ERC721 {
         uint256 tokenId,
         bytes memory _data
     ) public virtual override {
-        require(_isApprovedOrOwner(_msgSender(),tokenId),"ERC9999: transfer caller is not owner nor approved");
+        require(_isApprovedOrOwner(_msgSender(),tokenId),"ERCX: transfer caller is not owner nor approved");
         safeTransferUserFrom(from, to, tokenId, "");
         safeTransferFrom(from, to, tokenId, "");
     }
@@ -136,8 +136,8 @@ contract ERC9999 is IERC9999 , ERC721 {
      * - `tokenId` must exist.
      */
     function _isApprovedOrUser(address spender, uint256 tokenId) internal view virtual returns (bool) {
-        require(ERC721._exists(tokenId), "ERC9999: operator query for nonexistent token");
-        address user = ERC9999.userOf(tokenId);
+        require(ERC721._exists(tokenId), "ERCX: operator query for nonexistent token");
+        address user = ERCX.userOf(tokenId);
         return (spender == user || getApprovedUser(tokenId) == user);
     }
     
@@ -180,8 +180,8 @@ contract ERC9999 is IERC9999 , ERC721 {
         address to,
         uint256 tokenId
     ) internal virtual {
-        require(ERC9999.userOf(tokenId) == from || ERC721.ownerOf(tokenId) == from, "ERC9999: transfer of token that is not use");
-        require(to != address(0), "ERC9999: transfer to the zero address");
+        require(ERCX.userOf(tokenId) == from || ERC721.ownerOf(tokenId) == from, "ERCX: transfer of token that is not use");
+        require(to != address(0), "ERCX: transfer to the zero address");
         address user = userOf(tokenId);
         _beforeTokenTransferUser(user, to, tokenId);
 
@@ -207,7 +207,7 @@ contract ERC9999 is IERC9999 , ERC721 {
      * Emits a {Transfer} and a {TransferUser} event.
      */
     function _safeMint(address to , uint256 tokenId) internal virtual override{
-        require(to != address(0), "ERC9999: mint to the zero address");
+        require(to != address(0), "ERCX: mint to the zero address");
 
         _beforeTokenTransferUser(address(0), to, tokenId);
 
