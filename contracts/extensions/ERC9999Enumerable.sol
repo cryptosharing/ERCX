@@ -9,7 +9,7 @@ abstract contract ERC9999Enumerable is ERC9999 ,IERC9999Enumerable{
     // Mapping from user to list of useable token IDs
     mapping(address => mapping(uint256 => uint256)) private _userTokens;
 
-    // Mapping from token ID to index of the user tokens list
+    // Mapping from tokenId to index of the user tokens list
     mapping(uint256 => uint256) private _userTokensIndex;
     
     // Mapping from owner to list of owned token IDs

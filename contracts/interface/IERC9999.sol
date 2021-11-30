@@ -11,14 +11,13 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 interface IERC9999 is IERC721{
 
     /**
-     * @dev Emitted when `tokenId` use right is transferred from `from` to `to`.
+     * @dev Emitted when `tokenId` tokenUser is transferred from `from` to `to`.
      */    
     event TransferUser(address from,address to,uint256 tokenId);
     
     /**
-     * @dev Emitted when `user` enables `approved` to manage the `tokenId` use right.
+     * @dev Emitted when `user` enables `approved` to manage the `tokenId` tokenUser.
      */ 
-     //有必要吗
     event ApprovalUser(address indexed user, address indexed approved, uint256 indexed tokenId);
     
     /**
@@ -35,12 +34,13 @@ interface IERC9999 is IERC721{
     function userOf(uint256 tokenId) external view returns (address user);
     
     /**
-     * @dev Safely transfers `tokenId` user right from `from` to `to`
+     * @dev Safely transfers `tokenId` tokenUser from `from` to `to`
      * Requirements:
      *
      * - `from` cannot be the zero address.
      * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be used/owned or by {approveUser}/{approve}/{setApprovalForAll} by `from`.
+     * - `tokenId` token must exist and be used or owned by 'from' 
+     * - If the caller is not `from`, it must be approved to move this tokenUser by {approve} or {setApprovalForAll} or {approveUser}.
      *
      * Emits a {TransferUser} event.
      */    
@@ -51,12 +51,13 @@ interface IERC9999 is IERC721{
     ) external;
     
     /**
-     * @dev Safely transfers `tokenId` user right from `from` to `to`
+     * @dev Safely transfers `tokenId` tokenUser from `from` to `to`
      * Requirements:
      *
      * - `from` cannot be the zero address.
      * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be used/owned or approved/user-approved by `from`.
+     * - `tokenId` token must exist and be used or owned by 'from' 
+     * - If the caller is not `from`, it must be approved to move this tokenUser by {approve} or {setApprovalForAll} or {approveUser}.
      *
      * Emits a {TransferUser} event.
      */  
@@ -68,14 +69,15 @@ interface IERC9999 is IERC721{
     ) external;
     
     /**
-     * @dev Safely transfers `tokenId` token and user right from `from` to `to`
+     * @dev Safely transfers `tokenId` token and tokenUser from `from` to `to`
      * Requirements:
      *
      * - `from` cannot be the zero address.
      * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be owned or by {approve}/{setApprovalForAll} by `from`.
+     * - `tokenId` token must exist and be owned by 'from' 
+     * - If the caller is not `from`, it must be approved to move this tokenUser by {approve} or {setApprovalForAll}.
      *
-     * Emits a {Transfer} and {TransferUser} event.
+     * Emits a {Transfer} and a {TransferUser} event.
      */
     function safeTransferAllFrom(
         address from,
@@ -84,14 +86,15 @@ interface IERC9999 is IERC721{
     ) external;
     
     /**
-     * @dev Safely transfers `tokenId` token and user right from `from` to `to`
+     * @dev Safely transfers `tokenId` token and tokenUser from `from` to `to`
      * Requirements:
      *
      * - `from` cannot be the zero address.
      * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be owned or by {approve}/{setApprovalForAll} by `from`.
+     * - `tokenId` token must exist and be owned by 'from' 
+     * - If the caller is not `from`, it must be approved to move this tokenUser by {approve} or {setApprovalForAll}.
      *
-     * Emits a {Transfer} and {TransferUser} event.
+     * Emits a {Transfer} and a {TransferUser} event.
      */
     function safeTransferAllFrom(
         address from,
@@ -101,14 +104,14 @@ interface IERC9999 is IERC721{
     ) external;
     
     /**
-     * @dev Gives permission to `to` to transfer `tokenId` user to another account.
-     * The approval is cleared when the token is transferred.
+     * @dev Gives permission to `to` to transfer `tokenId` tokenUser to another account.
+     * The approval is cleared when the tokenUser is transferred.
      *
      * Only a single account can be approved at a time, so approving the zero address clears previous approvals.
      *
      * Requirements:
      *
-     * - The caller must own the token use right or be an user-approved operator.
+     * - The caller must be tokenUser or be an approvedUser operator.
      * - `tokenId` must exist.
      *
      * Emits an {ApprovalUser} event.
@@ -116,7 +119,7 @@ interface IERC9999 is IERC721{
     function approveUser(address to, uint256 tokenId) external;
     
     /**
-     * @dev Returns the account user-approved for `tokenId` token.
+     * @dev Returns the approvedUser for `tokenId` token.
      *
      * Requirements:
      *

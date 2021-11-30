@@ -12,13 +12,13 @@ import "./interface/IERC9999.sol";
 
 contract ERC9999 is IERC9999 , ERC721 {
     
-    // Mapping from token ID to user address
+    // Mapping from tokenId to user address
     mapping(uint256 => address) private _users;
 
-    // Mapping user address to token count
+    // Mapping user address to token usable count
     mapping(address => uint256) private _balancesOfUser;
     
-     // Mapping from token ID to approved address
+     // Mapping from tokenId to approved address
     mapping(uint256 => address) private _tokenUserApprovals;
 
     /**
@@ -44,7 +44,7 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /**
-     * @dev Approve `to` to operate on `tokenId` token use right.
+     * @dev Approve `to` to operate on `tokenId` tokenUser.
      *
      * Emits a {ApprovalUser} event.
      */
@@ -129,7 +129,7 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /**
-     * @dev Returns whether `spender` is allowed to manage `tokenId` token use right.
+     * @dev Returns whether `spender` is allowed to manage `tokenId` tokenUser.
      *
      * Requirements:
      *
@@ -142,7 +142,7 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /**
-     * @dev Safely transfers `tokenId` token use right from `from` to `to`
+     * @dev Safely transfers `tokenId` tokenUser from `from` to `to`
      *
      * `_data` is additional data, it has no specified format and it is sent in call to `to`.
      *
@@ -151,7 +151,7 @@ contract ERC9999 is IERC9999 , ERC721 {
      *
      * - `from` cannot be the zero address.
      * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be used/owned or approved/user-approved by `from`.
+     * - `tokenId` token must exist and be used or owned by 'from' 
      *
      * Emits a {TransferUser} event.
      */
@@ -165,13 +165,13 @@ contract ERC9999 is IERC9999 , ERC721 {
     }
     
     /**
-     * @dev Transfers `tokenId` from `from` to `to`.
+     * @dev Transfers `tokenId` tokenUser from `from` to `to`.
      *  As opposed to {transferFrom}, this imposes no restrictions on msg.sender.
      *
      * Requirements:
      *
      * - `to` cannot be the zero address.
-     * - `tokenId` token must exist and be used/owned or approved/user-approved by `from`.
+     * - `tokenId` token must exist and be used or owned by 'from' 
      *
      * Emits a {TransferUser} event.
      */
