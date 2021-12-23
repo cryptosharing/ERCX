@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./interface/IERCX.sol";
 
 /// @title cryptosharing
@@ -36,11 +36,11 @@ contract ERCX is IERCX , ERC721 {
         require(to != user, "ERCX: approval to current user");
 
         require(
-            _isApprovedOrUser(_msgSender(), tokenId),
-            "ERCX: approve caller is not user"
+            _isApprovedOrOwner(_msgSender(), tokenId) || _isApprovedOrUser(_msgSender(), tokenId),
+            "ERCX: approve caller is not owner nor approved for all"
         );
 
-        _approveUser(to, tokenId);
+        _approveUser(_msgSender(), to, tokenId);
     }
     
     /**
@@ -48,9 +48,9 @@ contract ERCX is IERCX , ERC721 {
      *
      * Emits a {ApprovalUser} event.
      */
-    function _approveUser(address to, uint256 tokenId) internal virtual {
+    function _approveUser(address from, address to, uint256 tokenId) internal virtual {
         _tokenUserApprovals[tokenId] = to;
-        emit ApprovalUser(ERC721.ownerOf(tokenId), to, tokenId);
+        emit ApprovalUser(from, to, tokenId);
     }
     
     /*
@@ -138,7 +138,7 @@ contract ERCX is IERCX , ERC721 {
     function _isApprovedOrUser(address spender, uint256 tokenId) internal view virtual returns (bool) {
         require(ERC721._exists(tokenId), "ERCX: operator query for nonexistent token");
         address user = ERCX.userOf(tokenId);
-        return (spender == user || spender == getApprovedUser(tokenId) );
+        return (spender == user || getApprovedUser(tokenId) == spender);
     }
     
     /**
@@ -186,13 +186,13 @@ contract ERCX is IERCX , ERC721 {
         _beforeTokenTransferUser(user, to, tokenId);
 
         // Clear approvals from the previous owner
-        _approveUser(address(0), tokenId);
+        _approveUser(_msgSender(), address(0), tokenId);
         
         _balancesOfUser[user] -= 1;
         _balancesOfUser[to] += 1;
         _users[tokenId] = to;
 
-        emit TransferUser(from, to, tokenId);
+        emit TransferUser(user, to, tokenId);  //if the from = owner and other = user, then the emit can't send right message;
     }
     
     /**
@@ -228,13 +228,13 @@ contract ERCX is IERCX , ERC721 {
      * Emits a {TransferUser} and a {Transfer} event.
      */
     function _burn(uint256 tokenId) internal virtual override{
-        super._burn();
+        super._burn(tokenId);
 
         address user = userOf(tokenId);
 
         _beforeTokenTransferUser(user, address(0), tokenId);
         // Clear approvals
-        _approveUser(address(0), tokenId);
+        _approveUser(_msgSender(), address(0), tokenId);
 
         _balancesOfUser[user] -= 1;
         delete _users[tokenId];
